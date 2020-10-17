@@ -15,7 +15,7 @@ def r_f(f_n) :
     return data_list
 
 # 增加數據
-def ad_data() :
+def ad_data(data_list) :
     while True :
         answer = input('是否要再增加學生數據y/n: ')
         if answer == 'y' :
@@ -56,26 +56,25 @@ def w_f(f_n, data_list) :
             status = line[4]
             f.write(name + ',' + str(high) + ',' + str(weight) + ',' + str(BMI) + ',' + status + '\n')
 
-data_list = r_f('students_BMI.csv')
-data_list = ad_data()
-w_f('students_BMI.csv', data_list)
-
-
 # 加入字典
-students_status = {}
-for line in data_list :
-    name = line[0]
-    status = line[4]
-    students_status[name] = status
- 
-students_BMI = {}
-for line in data_list :
-    name = line[0]
-    BMI = line[3]
-    students_BMI[name] = BMI
+def dictionary_s(data_list) :
+    students_status = {}
+    for line in data_list :
+        name = line[0]
+        status = line[4]
+        students_status[name] = status
+    return students_status
+
+def dictionary_B(data_list) :
+    students_BMI = {}
+    for line in data_list :
+        name = line[0]
+        BMI = line[3]
+        students_BMI[name] = BMI
+    return students_BMI
 
 # 查尋學生狀況
-def search() :
+def search(students_status,students_BMI) :
     while True :
         print('離開查詢功能按 q ')
         name = input('請輸入學生名: ')
@@ -87,4 +86,36 @@ def search() :
         else :
             print('查無此人')
 
-search()
+# 資料排序
+def sort(data_list) :
+    BMI_s = []
+    Tall_s = []
+    weight_s = []
+    for d in data_list :
+        name = d[0]
+        tall = d[1]
+        weight = d[2]
+        BMI_n = d[3]
+        BMI_s.append([name,BMI_n])
+        Tall_s.append([name,tall])
+        weight_s.append([name,weight])
+
+    BMI_s.sort(key = lambda x:x[1])  # sort 用法
+    Tall_s.sort(key = lambda x:x[1])
+    weight_s.sort(key = lambda x:x[1])
+    return BMI_s,Tall_s,weight_s  # 多回傳
+
+# 主程式
+def main() :
+    data_list = r_f('students_BMI.csv')
+    data_list = ad_data(data_list)
+    w_f('students_BMI.csv', data_list)
+    students_status = dictionary_s(data_list)
+    students_BMI = dictionary_B(data_list)
+    search(students_status,students_BMI)
+    # 定位(有多回傳值)
+    BMI_s = sort(data_list)[0]
+    Tall_s = sort(data_list)[1]
+    weight_s = sort(data_list)[2]
+
+main()
