@@ -107,6 +107,7 @@ def sort(data_list) :
 
 # 圓餅圖
 def matplotlib(data_list) :
+    import os
     import matplotlib.pyplot as plt
     plt.rcParams['font.sans-serif'] = ['MingLiU'] # 字型
 
@@ -144,7 +145,8 @@ def matplotlib(data_list) :
     plt.pie(sizes, explode = explode, labels = labels, autopct = '%1.1f%%',
     shadow = True, startangle = 90)
     plt.axis('equal') # 畫出正圓形
-    plt.show()
+    plt.savefig(os.path.join('result/', 'Pie chart.png'))
+    plt.show() 
 
 # 主程式
 def main() :
